@@ -19,7 +19,13 @@ public class RadarScanRequestPacket implements IMessage {
     public static class Handler implements IMessageHandler<RadarScanRequestPacket, IMessage> {
         @Override
         public IMessage onMessage(RadarScanRequestPacket message, MessageContext ctx) {
-            return RadarNetworkHandler.handleScanRequest(ctx.getServerHandler().player);
+            // MUST schedule on the main server thread — network thread cannot
+            // safely access world state (player list, dimensions, inventories).
+            ctx.getServerHandler().player.getServerWorld().addScheduledTask(() -> {
+                IMessage reply = RadarNetworkHandler.handleScanRequest(ctx.getServerHandler().player);
+                RadarNetworkHandler.getNetworkChannel().sendTo(reply, ctx.getServerHandler().player);
+            });
+            return null; // reply is sent manually from the scheduled task
         }
     }
 }
