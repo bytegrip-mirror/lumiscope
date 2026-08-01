@@ -1,8 +1,7 @@
 package com.lumijiez.lumiscope.handlers;
 
 import com.lumijiez.lumiscope.init.ModItems;
-import com.lumijiez.lumiscope.network.handlers.LongRadarPacketHandler;
-import com.lumijiez.lumiscope.network.handlers.ShortRadarPacketHandler;
+import com.lumijiez.lumiscope.network.handlers.RadarNetworkHandler;
 import com.lumijiez.lumiscope.potions.PotionManager;
 import com.lumijiez.lumiscope.util.IHasModel;
 import net.minecraft.item.Item;
@@ -29,8 +28,6 @@ public class RegistryHandler {
 
     public static void preInitRegistry() {
         PotionManager.registerPotions();
-
-        ShortRadarPacketHandler.registerMessages();
-        LongRadarPacketHandler.registerMessages();
+        RadarNetworkHandler.registerMessages();
     }
 }

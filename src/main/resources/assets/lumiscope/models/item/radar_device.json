@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "lumiscope:items/short_radar"
+    "layer0": "lumiscope:items/radar_device"
   }
 }

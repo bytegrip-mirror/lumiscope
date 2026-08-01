@@ -172,7 +172,7 @@ public class ScopeRenderer {
         long staticSeed = frameCounter / 3; // Update every ~3 frames
 
         RANDOM.setSeed(staticSeed);
-        GlStateManager.glPointSize(1.5f);
+        GL11.glPointSize(1.5f);
 
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
@@ -193,7 +193,7 @@ public class ScopeRenderer {
         }
 
         tessellator.draw();
-        GlStateManager.glPointSize(1.0f);
+        GL11.glPointSize(1.0f);
     }
 
     // ---------- GL Primitives ----------

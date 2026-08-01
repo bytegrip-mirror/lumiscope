@@ -4,62 +4,48 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.MathHelper;
 
 import java.awt.*;
-import java.util.Random;
 
 public class CustomMath {
 
-    private static final Random RANDOM = new Random();
+    /**
+     * Calculate the raw direction angle from one player to another.
+     * @return Angle in degrees [0, 360), where 0 = North, 90 = East, etc.
+     */
+    public static double calculateRawAngle(EntityPlayerMP from, EntityPlayerMP to) {
+        double deltaX = to.posX - from.posX;
+        double deltaZ = to.posZ - from.posZ;
 
-    public static double getPlayerDirectionShort(EntityPlayerMP player, EntityPlayerMP otherPlayer) {
-        double angle = calculateRawAngle(player, otherPlayer);
-        return Math.toRadians(normalizeAngle(angle));
+        double angle = MathHelper.atan2(deltaZ, deltaX) * (180.0 / Math.PI) - 90.0;
+        if (angle < 0) angle += 360.0;
+
+        return (angle + 180.0) % 360.0;
     }
 
-    public static double getPlayerDirectionLong(EntityPlayerMP player, EntityPlayerMP otherPlayer) {
-        double angle = calculateRawAngle(player, otherPlayer);
-        double errorAngle = applyDoublePerlinNoise(angle, 0.15);
-        return Math.toRadians(normalizeAngle(errorAngle));
+    /**
+     * Apply a large Perlin-noise-based angular error to prevent triangulation.
+     * Error ranges from ±25° to ±35° depending on the noise value.
+     *
+     * @param rawAngleDegrees The true angle in degrees
+     * @param seed A unique seed combining world time and target UUID for per-scan uniqueness
+     * @return Noisy angle in degrees [0, 360)
+     */
+    public static double applyLargeAngularError(double rawAngleDegrees, long seed) {
+        double noiseVal = PerlinNoise.noise(seed * 0.001 + rawAngleDegrees * 0.01);
+        double errorDegrees = noiseVal * 35.0;
+        double result = rawAngleDegrees + errorDegrees;
+        return normalizeAngle(result);
     }
 
-    private static double calculateRawAngle(EntityPlayerMP player, EntityPlayerMP otherPlayer) {
-        double deltaX = otherPlayer.posX - player.posX;
-        double deltaZ = otherPlayer.posZ - player.posZ;
-
-        double angle = MathHelper.atan2(deltaZ, deltaX) * (180 / Math.PI) - 90;
-        if (angle < 0) angle += 360;
-
-        return (angle + 180) % 360;
+    /**
+     * Normalize an angle to [0, 360).
+     */
+    public static double normalizeAngle(double angle) {
+        return ((angle % 360.0) + 360.0) % 360.0;
     }
 
-    private static double normalizeAngle(double angle) {
-        return (angle + 360) % 360;
-    }
-
-    private static double applyRandomError(double angle) {
-        double errorPercentage = 1 + RANDOM.nextDouble() * 9;
-        double error = angle * (errorPercentage / 100.0);
-        double errorSign = RANDOM.nextBoolean() ? 1 : -1;
-        return angle + errorSign * error;
-    }
-
-    private static double applyPerlinNoiseError(double baseValue, double scale) {
-        double time = System.currentTimeMillis() / 1000.0;
-        double noiseValue = PerlinNoise.noise(time);
-        double error = baseValue * scale * noiseValue;
-        return baseValue + error;
-    }
-
-    private static double applyDoublePerlinNoise(double baseValue, double scale) {
-        double time = System.currentTimeMillis() / 1000.0;
-        double firstNoise = PerlinNoise.noise(time);
-        double noiseInput = baseValue + scale * firstNoise;
-
-        double secondNoise = PerlinNoise.noise(noiseInput);
-        double error = baseValue * scale * secondNoise;
-
-        return baseValue + error;
-    }
-
+    /**
+     * Interpolate a color from green (close) to red (far) based on distance.
+     */
     public static int interpolateColor(int maxDistance, int minDistance, int currentDistance) {
         int clampedDistance = Math.max(minDistance, Math.min(maxDistance, currentDistance));
         float ratio = (float) (maxDistance - clampedDistance) / (maxDistance - minDistance);

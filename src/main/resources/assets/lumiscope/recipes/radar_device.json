@@ -1,9 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "AAA",
-    "SES",
-    "ONO"
+    "EAE",
+    "RSR",
+    "OIO"
   ],
   "key": {
     "E": {
@@ -12,18 +12,21 @@
     "A": {
       "item": "lumiscope:radar_antenna"
     },
+    "R": {
+      "item": "minecraft:redstone"
+    },
     "S": {
-      "item": "lumiscope:short_radar"
+      "item": "lumiscope:radar_screen"
     },
     "O": {
       "item": "minecraft:obsidian"
     },
-    "N": {
-      "item": "minecraft:nether_star"
+    "I": {
+      "item": "minecraft:iron_ingot"
     }
   },
   "result": {
-    "item": "lumiscope:long_radar",
+    "item": "lumiscope:radar_device",
     "count": 1
   }
 }

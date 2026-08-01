@@ -2,18 +2,18 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "OSO",
-    "OLO",
+    "ORO",
     "OSO"
   ],
   "key": {
-    "S": {
-      "item": "lumiscope:short_radar"
-    },
-    "L": {
-      "item": "lumiscope:long_radar"
+    "R": {
+      "item": "lumiscope:radar_device"
     },
     "O": {
       "item": "minecraft:obsidian"
+    },
+    "S": {
+      "item": "minecraft:redstone"
     }
   },
   "result": {

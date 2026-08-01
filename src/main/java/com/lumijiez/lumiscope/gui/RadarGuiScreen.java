@@ -2,6 +2,7 @@ package com.lumijiez.lumiscope.gui;
 
 import com.lumijiez.lumiscope.network.handlers.RadarNetworkHandler;
 import com.lumijiez.lumiscope.network.packets.RadarScanRequestPacket;
+import com.lumijiez.lumiscope.network.packets.RadarScanResultPacket;
 import com.lumijiez.lumiscope.network.records.RadarBlip;
 import com.lumijiez.lumiscope.util.ScopeRenderer;
 import net.minecraft.client.Minecraft;

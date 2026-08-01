@@ -2,7 +2,7 @@
 {
   "modid": "lumiscope",
   "name": "Lumiscope",
-  "description": "Balanced, long distance radar mod.",
+  "description": "Direction-finding player radar with resource cost and cooldown. Find players without exact locations — hunt wisely.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
