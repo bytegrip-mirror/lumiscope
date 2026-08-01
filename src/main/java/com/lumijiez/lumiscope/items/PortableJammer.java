@@ -25,7 +25,7 @@ public class PortableJammer extends ItemBase {
         ItemStack itemStack = playerIn.getHeldItem(handIn);
 
         if (!worldIn.isRemote) {
-            PotionEffect effect = new PotionEffect(PotionManager.JAMMERED_POTION_EFFECT, 24000, 0);
+            PotionEffect effect = new PotionEffect(PotionManager.JAMMED_POTION_EFFECT, 24000, 0);
             playerIn.addPotionEffect(effect);
 
             itemStack.damageItem(1, playerIn);
